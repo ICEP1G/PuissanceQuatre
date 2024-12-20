@@ -4,6 +4,26 @@ namespace PuissanceQuatre.Models
 {
     public class Board
     {
+        public Board() 
+        {
+            Grid = Initialize();
+        }
+
+        private const int Columns = 7;
+        public Dictionary<int, PowerStack> Grid { get; set; }
+
+        private Dictionary<int, PowerStack> Initialize()
+        {
+            Dictionary<int, PowerStack> grid = new();
+            for (int i = 0; i < Columns; i++)
+            {
+                grid[i] = new PowerStack();
+            }
+
+            return grid;
+        }
+
+
         //public Board() 
         //{ 
         //    Grid = Initalize();

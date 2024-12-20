@@ -10,6 +10,8 @@ namespace PuissanceQuatre
             Console.WriteLine("Hello World!");
 
             Board board = new Board();
+
+            Console.WriteLine("Hello World!");
         }
     }
 }

@@ -1,21 +1,16 @@
-﻿using PuissanceQuatre.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace PuissanceQuatre
+namespace PuissanceQuatre.Models
 {
     public class PowerStack
     {
-        public PowerStack() 
+        public PowerStack()
         {
             Stack = new();
         }
 
         public Stack<Token> Stack { get; set; }
-        public int Capacity { get; private set; } = 7;
+        public int Capacity { get; private set; } = 6;
 
         public bool Push(Token token)
         {
