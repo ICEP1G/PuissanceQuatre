@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PuissanceQuatre.Models;
+using System;
 
 namespace PuissanceQuatre
 {
@@ -7,6 +8,8 @@ namespace PuissanceQuatre
         static async Task Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            Board board = new Board();
         }
     }
 }
