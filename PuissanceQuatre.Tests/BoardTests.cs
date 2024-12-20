@@ -24,5 +24,56 @@ namespace PuissanceQuatre.Tests
                 .Should()
                 .HaveCount(42);
         }
+
+        [Fact]
+        public async Task PlayerMove_IsValidMove_ShouldFillTheGrid()
+        {
+            // Arrange
+            Board board = new();
+
+            // Act
+            bool isValidMove = await board.PlayMove(1 ,1, CellType.Red);
+
+            // Assert
+            isValidMove.Should().BeTrue();
+            board.Grid
+                .First(cell => cell.Row == 1 && cell.Column == 1)
+                .ColorValue
+                .Should()
+                .Be(CellType.Red);
+        }
+
+        [Fact]
+        public async Task PlayerMove_IsNotValidMove_ShouldNotFillTheGrid()
+        {
+            // Arrange
+            Board board = new();
+
+            // Act
+            bool isValidMove = await board.PlayMove(66, -4, CellType.Red);
+
+            // Assert
+            isValidMove.Should().BeFalse();
+        }
+
+        [Fact]
+        public void PlayerMove_IsAlreadyFilled_ShouldNotFillTheGrid()
+        {
+            // Arrange
+            Board board = new();
+            Cell cell = board.Grid.First(cell => cell.Column == 1 && cell.Row == 1);
+            cell.ColorValue = CellType.Red;
+
+            // Act
+            board.PlayMove(1, 1, CellType.Red);
+
+            // Assert
+            board.Grid.First(cell => cell.Row == 1 && cell.Column == 1)
+                .ColorValue
+                .Should()
+                .Be(CellType.Red);
+        }
+
+
     }
 }
