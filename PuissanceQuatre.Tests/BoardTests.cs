@@ -23,7 +23,7 @@ namespace PuissanceQuatre.Tests
                 .Be(7);
 
             board.Grid
-                .Where(stack => stack.Value.Stack.Count == 0)
+                .Where(stack => stack.Value.Column.Count == 0)
                 .Count()
                 .Should()
                 .Be(7);
@@ -94,6 +94,75 @@ namespace PuissanceQuatre.Tests
                 .Should()
                 .BeFalse();
         }
+
+        [Fact]
+        public void VerifyDiagonalWinCombination_IsDiagonalWin_ShouldReturnTrue()
+        {
+            // Arrange
+            Board board = new();
+            for (int col = 0; col < 4; col++)
+            {
+                ColumnQueue actualColumn = board.Grid[col];
+                for (int row = 0; row < 4; row++)
+                {
+                    if (row == col)
+                        actualColumn.PushToken(new Token(TokenColor.Red));
+                    else
+                        actualColumn.PushToken(new Token(TokenColor.Yellow));
+                }
+            }
+
+            // Act
+            bool expected = board.VerifyDiagonalWinCombination();
+
+            // Assert
+            expected
+                .Should()
+                .BeTrue();
+        }
+
+        [Fact]
+        public void VerifyDiagonalWinCombination_IsNotDiagonalWin_ShouldReturnTFalse()
+        {
+            // Arrange
+            Board board = new();
+            for (int col = 0; col < 4; col++)
+            {
+                ColumnQueue actualColumn = board.Grid[col];
+                for (int row = 0; row < 4; row++)
+                {
+                    if (col == 2 && row == 2)
+                    {
+                        actualColumn.PushToken(new Token(TokenColor.Yellow));
+                        continue;
+                    }
+
+                    if (col == 3 && row == 0)
+                    {
+                        actualColumn.PushToken(new Token(TokenColor.Red));
+                        continue;
+                    }
+
+                    if (row == col)
+                        actualColumn.PushToken(new Token(TokenColor.Red));
+                    else
+                        actualColumn.PushToken(new Token(TokenColor.Yellow));
+                }
+            }
+
+            // Act
+            bool expected = board.VerifyDiagonalWinCombination();
+
+            // Assert
+            expected
+                .Should()
+                .BeFalse();
+        }
+
+
+
+
+
 
         //[Theory]
         //public async Task VerifyIfGameIsWin_GameIsWin_ShouldReturnTrue()

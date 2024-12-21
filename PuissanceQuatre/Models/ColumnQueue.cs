@@ -2,22 +2,22 @@
 
 namespace PuissanceQuatre.Models
 {
-    public class PowerStack
+    public class ColumnQueue
     {
-        public PowerStack()
+        public ColumnQueue()
         {
-            Stack = new();
+            Column = new();
         }
 
-        public Stack<Token> Stack { get; set; }
+        public Queue<Token> Column { get; set; }
         public int Capacity { get; private set; } = 6;
 
         public bool PushToken(Token token)
         {
-            if (Stack.Count < Capacity)
+            if (Column.Count < Capacity)
             {
-                Stack.Push(token);
-                token.SetIndex(Stack.Count);
+                Column.Enqueue(token);
+                token.SetIndex(Column.Count - 1);
 
                 return true;
             }

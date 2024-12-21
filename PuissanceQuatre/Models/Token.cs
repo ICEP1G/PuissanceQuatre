@@ -13,7 +13,7 @@ namespace PuissanceQuatre.Models
             Color = color;
         }
 
-        private int index { get; set; }
+        public int index { get; private set; }
         public TokenColor Color { get; set; }
 
         public void SetIndex(int index)

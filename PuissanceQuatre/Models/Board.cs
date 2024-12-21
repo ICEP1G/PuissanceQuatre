@@ -1,5 +1,6 @@
 ﻿
 
+using CSharpFunctionalExtensions;
 using System.Data.Common;
 
 namespace PuissanceQuatre.Models
@@ -13,15 +14,15 @@ namespace PuissanceQuatre.Models
 
         private const int Rows = 6;
         private const int Columns = 7;
-        public Dictionary<int, PowerStack> Grid { get; set; }
+        public Dictionary<int, ColumnQueue> Grid { get; set; }
 
 
-        private Dictionary<int, PowerStack> Initialize()
+        private Dictionary<int, ColumnQueue> Initialize()
         {
-            Dictionary<int, PowerStack> grid = new();
+            Dictionary<int, ColumnQueue> grid = new();
             for (int i = 0; i < Columns; i++)
             {
-                grid[i] = new PowerStack();
+                grid[i] = new ColumnQueue();
             }
 
             return grid;
@@ -34,15 +35,15 @@ namespace PuissanceQuatre.Models
 
         public bool VerifyVerticalWinCombination()
         {
-            foreach (KeyValuePair<int, PowerStack> column in Grid)
+            foreach (KeyValuePair<int, ColumnQueue> column in Grid)
             {
-                if (column.Value.Stack.Count < 4)
+                if (column.Value.Column.Count < 4)
                     continue;
 
-                TokenColor actualColor = column.Value.Stack.Peek().Color;
+                TokenColor actualColor = column.Value.Column.Peek().Color;
 
                 int count = 1;
-                foreach (Token token in column.Value.Stack)
+                foreach (Token token in column.Value.Column)
                 {
                     if (actualColor.Equals(token.Color))
                     {
@@ -70,9 +71,9 @@ namespace PuissanceQuatre.Models
 
                 for (int col = 0; col < Columns; col++)
                 {
-                    if (Grid[col].Stack.Count > row)
+                    if (Grid[col].Column.Count > row)
                     {
-                        TokenColor color = Grid[col].Stack.ToArray()[row].Color;
+                        TokenColor color = Grid[col].Column.ToArray()[row].Color;
                         if (actualColor is null)
                         {
                             actualColor = color;
@@ -100,6 +101,51 @@ namespace PuissanceQuatre.Models
             
             return false;
         }
+
+        public bool VerifyDiagonalWinCombination()
+        {
+            for (int row = 0; row < Rows; row++)
+            {
+                for (int col = 0; col < Columns; col++)
+                {
+                    if (Grid[col].Column.Count > row)
+                    {
+                        TokenColor color = Grid[col].Column.ToArray()[row].Color;
+                        if (CheckDiagonal(Grid, row, col, color, 1, 1) || CheckDiagonal(Grid, row, col, color, 1, -1))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public bool CheckDiagonal(Dictionary<int, ColumnQueue> board, int startRow, int startCol, TokenColor color, int rowIncrement, int colIncrement)
+        {
+            int count = 0;
+            int row = startRow;
+            int col = startCol;
+
+            while (row >= 0 && row < board[0].Column.Count && col >= 0 && col < board.Count)
+            {
+                if (board[col].Column.Count > row && board[col].Column.ToArray()[row].Color == color)
+                {
+                    count++;
+                    if (count == 4)
+                        return true;
+                }
+                else
+                {
+                    count = 0;
+                }
+
+                row += rowIncrement;
+                col += colIncrement;
+            }
+
+            return false;
+        }
+
 
         //public Task<bool> PlayMove(int row, int column, CellType cellValue)
         //{

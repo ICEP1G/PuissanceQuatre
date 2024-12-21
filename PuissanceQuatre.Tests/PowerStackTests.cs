@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace PuissanceQuatre.Tests
 {
-    public class PowerStackTests
+    public class ColumnQueueTests
     {
         [Fact]
         public void Push_IsValidCapacity_ShouldFillTheStack()
         {
             // Arrange
-            PowerStack stack = new();
+            ColumnQueue stack = new();
             Token token = new(TokenColor.Red);
 
             // Act
@@ -27,7 +27,7 @@ namespace PuissanceQuatre.Tests
         public void Push_IsNotValidCapacity_ShouldNotFillTheStack()
         {
             // Arrange
-            PowerStack stack = new();
+            ColumnQueue stack = new();
             for (int i = 0; i < stack.Capacity; i++)
             {
                 Token token = new(TokenColor.Red);
