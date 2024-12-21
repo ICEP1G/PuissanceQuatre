@@ -6,7 +6,7 @@ namespace PuissanceQuatre.Tests
     public class BoardTests
     {
         [Fact]
-        public void Initialize_Return7StackOf6()
+        public void Initialize_ReturnEmptyGrid()
         {
             // Arrange
 
@@ -21,17 +21,96 @@ namespace PuissanceQuatre.Tests
             board.Grid.Count
                 .Should()
                 .Be(7);
-            //board.Grid
-            //    .Where(pStack => pStack.Value.Stack.Count == 0)
-            //    .Should()
-            //    .BeEquivalentTo()
-            ////board.Grid
-            //    .Should()
-            //    .HaveCount(42);
-            //board.Grid.Where(cell => cell.ColorValue is null)
-            //    .Should()
-            //    .HaveCount(42);
+
+            board.Grid
+                .Where(stack => stack.Value.Stack.Count == 0)
+                .Count()
+                .Should()
+                .Be(7);
         }
+
+        [Fact]
+        public void VerifyVerticalWinCombination_IsVerticalWin_ShouldReturnTrue()
+        {
+            // Arrange
+            Board board = new();
+            for (int i = 0; i < 4; i++)
+            {
+                Token token = new(TokenColor.Red);
+                board.Grid[0].PushToken(token);
+            }
+
+            // Act
+            bool expected = board.VerifyVerticalWinCombination();
+
+            // Assert
+            expected
+                .Should()
+                .BeTrue();
+        }
+
+        [Fact]
+        public void VerifyHorizontalWinCombination_IsHorizontalWin_ShouldReturnTrue()
+        {
+            // Arrange
+            Board board = new();
+            for (int i = 0; i < 4; i++)
+            {
+                Token token = new(TokenColor.Red);
+                board.Grid[i].PushToken(token);
+            }
+
+            // Act
+            bool expected = board.VerifyHorizontalWinCombination();
+
+            // Assert
+            expected
+                .Should()
+                .BeTrue();
+        }
+
+        [Fact]
+        public void VerifyHorizontalWinCombination_IsNotHorizontalWin_ShouldReturnFalse()
+        {
+            // Arrange
+            Board board = new();
+            for (int i = 0; i < 4; i++)
+            {
+                Token token = new(TokenColor.Red);
+                if (i < 3)
+                {
+                    board.Grid[i].PushToken(token);
+                    continue;
+                }
+
+                board.Grid[i].PushToken(new Token(TokenColor.Yellow));
+            }
+
+            // Act
+            bool expected = board.VerifyHorizontalWinCombination();
+
+            // Assert
+            expected
+                .Should()
+                .BeFalse();
+        }
+
+        //[Theory]
+        //public async Task VerifyIfGameIsWin_GameIsWin_ShouldReturnTrue()
+        //{
+        //    // Arrange
+        //    Board board = new();
+
+        //    // Act
+        //    bool expected = board.VerifyIfGameIsWin();
+
+        //    // Assert
+        //    expected
+        //        .Should()
+        //        .BeTrue();
+        //}
+
+
 
         //[Fact]
         //public void Initialize_ReturnGrid6by7()

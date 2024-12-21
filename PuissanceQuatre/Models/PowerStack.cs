@@ -12,7 +12,7 @@ namespace PuissanceQuatre.Models
         public Stack<Token> Stack { get; set; }
         public int Capacity { get; private set; } = 6;
 
-        public bool Push(Token token)
+        public bool PushToken(Token token)
         {
             if (Stack.Count < Capacity)
             {
@@ -24,8 +24,6 @@ namespace PuissanceQuatre.Models
 
             return false;
         }
-
-
 
     }
 

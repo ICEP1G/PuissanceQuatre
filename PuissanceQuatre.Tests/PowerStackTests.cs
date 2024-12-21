@@ -17,7 +17,7 @@ namespace PuissanceQuatre.Tests
             Token token = new(TokenColor.Red);
 
             // Act
-            bool expected = stack.Push(token);
+            bool expected = stack.PushToken(token);
 
             // Assert
             expected.Should().BeTrue();
@@ -31,12 +31,12 @@ namespace PuissanceQuatre.Tests
             for (int i = 0; i < stack.Capacity; i++)
             {
                 Token token = new(TokenColor.Red);
-                stack.Push(token);
+                stack.PushToken(token);
             }
 
             // Act
             Token newToken = new(TokenColor.Red);
-            bool expected = stack.Push(newToken);
+            bool expected = stack.PushToken(newToken);
 
             // Assert
             expected.Should().BeFalse();
